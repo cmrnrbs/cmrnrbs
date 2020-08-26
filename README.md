@@ -1,5 +1,5 @@
 ### Hi there, I'm Cemre Onur BAŞ [cmrnrbs][youtube] 👋
-
+[<img src="https://img.shields.io/badge/youtube-%23FF0000.svg?&style=for-the-badge&logo=youtube&logoColor=white" />][youtube]
 [![Twitter Follow](https://img.shields.io/twitter/follow/CmrNrBs?color=1DA1F2&logo=twitter&style=for-the-badge)](https://twitter.com/intent/follow?original_referer=https%3A%2F%2Fgithub.com%cmrnrbs&screen_name=cmrnrbs)
 
 ## I'm a Developer!
@@ -11,7 +11,7 @@
 - ⚡ Fun fact: I love to draw and play guitar / drums
 
 ### Spotify Playing 🎧
-[<img src="https://now-playing-codestackr.vercel.app/api/spotify-playing" alt="codeSTACKr Spotify Playing" width="350" />](https://open.spotify.com/user/swyqyimdc12jajde4vpwd2x1b)
+[<img src="https://now-playing-codestackr.vercel.app/api/spotify-playing" alt="11125078154 Spotify Playing" width="350" />](https://open.spotify.com/user/11125078154)
 
 ### Connect with me:
 
@@ -69,7 +69,7 @@
 <details>
   <summary>:zap: Github Stats</summary>
 
-  <img align="left" alt="codeSTACKr's Github Stats" src="https://github-readme-stats.codestackr.vercel.app/api?username=cmrnrbs&show_icons=true&hide_border=true" />
+  <img align="left" alt="codeSTACKr's Github Stats" src="https://github-readme-stats-swart-six.vercel.app/api?username=cmrnrbs&show_icons=true&hide_border=true" />
 
 </details>
 
