@@ -37,11 +37,11 @@
 ### 📺 Latest YouTube Videos
 
 <!-- YOUTUBE:START -->
+- [Flutter Provider Nedir ? | Flutter StateManagement with Provider](https://www.youtube.com/watch?v=qWKKoT7sS6k)
 - [Flutter Playstation 5 Neumorphic Design  | Speed Code](https://www.youtube.com/watch?v=zMlNjiFUnUE)
 - [Flutter Instagram Redesign Tutorial Part - 3](https://www.youtube.com/watch?v=RDYiX7KCoM4)
 - [Flutter Instagram Redesign Tutorial Part  - 2](https://www.youtube.com/watch?v=IgzHlQtSiSM)
 - [Flutter Instagram Redesign Tutorial Part  - 1](https://www.youtube.com/watch?v=F2z1sx8-Src)
-- [React-Native Expo White Screen Problem On Device [SOLVED]](https://www.youtube.com/watch?v=_2d8SJGhMkI)
 <!-- YOUTUBE:END -->
 
 ➡️ [more videos...](https://youtube.com/channel/UCBJrbtKZi8MF2q1nHoN1AYw)
