@@ -37,7 +37,7 @@
 ### 📺 Latest YouTube Videos
 
 <!-- YOUTUBE:START -->
-- [Sushia App in SwiftUI](https://www.youtube.com/watch?v=8OcE9zbJHTo)
+- [Sushia App in SwiftUI | SpeedCode](https://www.youtube.com/watch?v=8OcE9zbJHTo)
 - [Data Visualization in SwitUI Tutorial Part - 1](https://www.youtube.com/watch?v=Dm_Fu1xrwYo)
 - [Data Visualization in SwitUI Tutorial Part - 2](https://www.youtube.com/watch?v=nvOsFoCc3jU)
 - [SwiftUI First Look](https://www.youtube.com/watch?v=c_rR4Ch9UIU)
