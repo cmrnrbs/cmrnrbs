@@ -37,11 +37,11 @@
 ### 📺 Latest YouTube Videos
 
 <!-- YOUTUBE:START -->
-- [Sushia App in SwiftUI | SpeedCode](https://www.youtube.com/watch?v=8OcE9zbJHTo)
-- [Data Visualization in SwitUI Tutorial Part - 1](https://www.youtube.com/watch?v=Dm_Fu1xrwYo)
-- [Data Visualization in SwitUI Tutorial Part - 2](https://www.youtube.com/watch?v=nvOsFoCc3jU)
-- [SwiftUI First Look](https://www.youtube.com/watch?v=c_rR4Ch9UIU)
-- [Flutter Provider Nedir ? | Flutter StateManagement with Provider](https://www.youtube.com/watch?v=qWKKoT7sS6k)
+- [Dribbox Online Cloud Storage App in Flutter - Login Screen](https://www.youtube.com/watch?v=WCu5vSXWa3Q)
+- [Dribbox Online Cloud Storage App in Flutter - Performance & Quality Fix](https://www.youtube.com/watch?v=A8BKV3VwDsA)
+- [Dribbox Online Cloud Storage App in Flutter - Change Password Screen](https://www.youtube.com/watch?v=T3UtHOuGYAo)
+- [Dribbox Online Cloud Storage App in Flutter - Settings Screen](https://www.youtube.com/watch?v=t8i0vMI1HcY)
+- [Dribbox Online Cloud Storage App in Flutter - Storage Screen + Chart](https://www.youtube.com/watch?v=Tl7MBD7-S8o)
 <!-- YOUTUBE:END -->
 
 ➡️ [more videos...](https://youtube.com/channel/UCBJrbtKZi8MF2q1nHoN1AYw)
