@@ -37,11 +37,11 @@
 ### 📺 Latest YouTube Videos
 
 <!-- YOUTUBE:START -->
+- [Flutter ile Unity AR Projesini Kullanmak](https://www.youtube.com/watch?v=lxglKmWWHAM)
+- [Flutter With Unity Augmented Reality [English]](https://www.youtube.com/watch?v=4KywnaaykBU)
 - [Flutter Web Responsive Website Design - Food Delivery App](https://www.youtube.com/watch?v=qw4UORz5drk)
 - [FlutterFlow ile Kod Yazmadan Flutter](https://www.youtube.com/watch?v=TJi7mWy3wI4)
 - [Kotlin Room Kütüphanesi Part IV - Item Silme [Kotlin Architecture Components]](https://www.youtube.com/watch?v=LZaNL2Q2Gxw)
-- [Kotlin Room Kütüphanesi Part III - Item Güncelleme [Kotlin Architecture Components]](https://www.youtube.com/watch?v=ZeObswGqy-A)
-- [Kotlin Room Kütüphanesi Part II - Item Ekleme [Kotlin Architecture Components]](https://www.youtube.com/watch?v=_2QE454XR1o)
 <!-- YOUTUBE:END -->
 
 ➡️ [more videos...](https://youtube.com/channel/UCBJrbtKZi8MF2q1nHoN1AYw)
