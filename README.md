@@ -37,11 +37,11 @@
 ### 📺 Latest YouTube Videos
 
 <!-- YOUTUBE:START -->
+- [Data Visualization App with Jetpack Compose](https://www.youtube.com/watch?v=k_88rd0ZPBw)
 - [Firebase Dynamic Links with Flutter](https://www.youtube.com/watch?v=ltW3YDCvYqs)
 - [Flutter Otp Verification with Firebase](https://www.youtube.com/watch?v=xeNGCjlsR9M)
 - [Flutter ile Unity AR Projesini Kullanmak](https://www.youtube.com/watch?v=lxglKmWWHAM)
 - [Flutter With Unity Augmented Reality [English]](https://www.youtube.com/watch?v=4KywnaaykBU)
-- [Flutter Web Responsive Website Design - Food Delivery App](https://www.youtube.com/watch?v=qw4UORz5drk)
 <!-- YOUTUBE:END -->
 
 ➡️ [more videos...](https://youtube.com/channel/UCBJrbtKZi8MF2q1nHoN1AYw)
