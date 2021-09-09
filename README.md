@@ -37,11 +37,11 @@
 ### 📺 Latest YouTube Videos
 
 <!-- YOUTUBE:START -->
+- [Food Delivery App with Jetpack Compose Part - IV](https://www.youtube.com/watch?v=jNGdpnsOZAY)
+- [Food Delivery App with Jetpack Compose Part - III](https://www.youtube.com/watch?v=X-SD67BPqNY)
+- [Food Delivery App with Jetpack Compose Part - II](https://www.youtube.com/watch?v=R6kv2KCzlb4)
+- [Food Delivery App with Jetpack Compose Part - I](https://www.youtube.com/watch?v=G7o2qoHPmqw)
 - [Jetpack Compose ile Navigation İşlemi ve Veri Aktarımı [Jetpack Compose Navigation and Passing Data]](https://www.youtube.com/watch?v=mbRS1fXPiaI)
-- [Data Visualization App with Jetpack Compose](https://www.youtube.com/watch?v=k_88rd0ZPBw)
-- [Firebase Dynamic Links with Flutter](https://www.youtube.com/watch?v=ltW3YDCvYqs)
-- [Flutter Otp Verification with Firebase](https://www.youtube.com/watch?v=xeNGCjlsR9M)
-- [Flutter ile Unity AR Projesini Kullanmak](https://www.youtube.com/watch?v=lxglKmWWHAM)
 <!-- YOUTUBE:END -->
 
 ➡️ [more videos...](https://youtube.com/channel/UCBJrbtKZi8MF2q1nHoN1AYw)
