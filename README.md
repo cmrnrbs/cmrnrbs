@@ -37,11 +37,11 @@
 ### 📺 Latest YouTube Videos
 
 <!-- YOUTUBE:START -->
-- [Food Delivery App with Jetpack Compose Part - IV](https://www.youtube.com/watch?v=jNGdpnsOZAY)
-- [Food Delivery App with Jetpack Compose Part - III](https://www.youtube.com/watch?v=X-SD67BPqNY)
-- [Food Delivery App with Jetpack Compose Part - II](https://www.youtube.com/watch?v=R6kv2KCzlb4)
-- [Food Delivery App with Jetpack Compose Part - I](https://www.youtube.com/watch?v=G7o2qoHPmqw)
-- [Jetpack Compose ile Navigation İşlemi ve Veri Aktarımı [Jetpack Compose Navigation and Passing Data]](https://www.youtube.com/watch?v=mbRS1fXPiaI)
+- [Kotlin MVVM ile Movie Catch Uygulaması - Part V](https://www.youtube.com/watch?v=oUXYRefozUo)
+- [Kotlin MVVM ile Movie Catch Uygulaması - Part IV - II](https://www.youtube.com/watch?v=6CSfIv9299Y)
+- [Kotlin MVVM ile Movie Catch Uygulaması - Part IV - I](https://www.youtube.com/watch?v=Q_Oa6S79wPs)
+- [Kotlin MVVM ile Movie Catch Uygulaması - Part III](https://www.youtube.com/watch?v=H1rfQf22WYY)
+- [Kotlin MVVM ile Movie Catch Uygulaması - Part II](https://www.youtube.com/watch?v=lMJtqCmqkys)
 <!-- YOUTUBE:END -->
 
 ➡️ [more videos...](https://youtube.com/channel/UCBJrbtKZi8MF2q1nHoN1AYw)
