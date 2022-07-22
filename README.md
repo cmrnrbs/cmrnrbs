@@ -7,7 +7,7 @@
 - 🔭 I’m currently working on a [Youtube][youtube]!
 - 🌱 I’m currently learning everything 🤣
 - 👯 I’m looking to collaborate with other content creators
-- 🥅 2020 Goals: Contribute more to Open Source projects
+- 🥅 2022 Goals: Contribute more to Kotlin,Swift,Flutter, Compose and SwiftUI projects
 - ⚡ Fun fact: I love to draw and play guitar / drums
 
 ### Spotify Playing 🎧
