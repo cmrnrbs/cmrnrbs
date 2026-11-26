@@ -97,7 +97,11 @@ Step-by-step mobile development series, in Turkish.
 
 ## 📊 GitHub Activity
 
-<h3 align="center">Contribution Activity</h3>
+<p align="center">
+  <img src="https://gh-readme-profile.vercel.app/api?username=cmrnrbs&hide=forks,prs_merged,issues,contributed" alt="GitHub profile statistics">
+</p>
+
+<h2 align="center">Contribution Activity</h2>
 
 <p align="center">
   <picture>
@@ -106,14 +110,6 @@ Step-by-step mobile development series, in Turkish.
     <img alt="GitHub contribution snake" src="https://raw.githubusercontent.com/cmrnrbs/cmrnrbs/output/github-snake.svg" width="100%">
   </picture>
 </p>
-
-<details>
-  <summary>⚡ Recent GitHub Activity</summary>
-
-<!--START_SECTION:activity-->
-<!--END_SECTION:activity-->
-
-</details>
 
 ---
 
