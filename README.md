@@ -1,38 +1,57 @@
-### Hi there, I'm Cemre Onur BAŞ [cmrnrbs][youtube] 👋
-[<img src="https://img.shields.io/badge/youtube-%23FF0000.svg?&style=for-the-badge&logo=youtube&logoColor=white" />][youtube]
-[![Twitter Follow](https://img.shields.io/twitter/follow/CmrNrBs?color=1DA1F2&logo=twitter&style=for-the-badge)](https://twitter.com/intent/follow?original_referer=https%3A%2F%2Fgithub.com%cmrnrbs&screen_name=cmrnrbs)
+# Hi, I'm Cemre Onur Baş 👋
 
-## I'm a Developer!
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="./dark.svg">
+  <source media="(prefers-color-scheme: light)" srcset="./light.svg">
+  <img src="./dark.svg" alt="Cemre Onur Baş, mobile developer working with React Native, Expo, Swift and Kotlin, and content creator">
+</picture>
 
-- 🔭 I’m currently working on a [Youtube][youtube]!
-- 🌱 I’m currently learning everything 🤣
-- 👯 I’m looking to collaborate with other content creators
-- 🥅 2024 Goals: Contribute more to Kotlin, Swift, Flutter, Compose and SwiftUI projects
-- ⚡ Fun fact: I love to draw and play guitar / drums
+<p align="center">
+  <b>Mobile Developer · React Native & Expo · iOS · Android · Content Creator</b>
+</p>
 
-### Spotify Playing 🎧
-[<img src="https://novatorem-six-umber.vercel.app/api/spotify" alt="11125078154 Spotify Playing" width="350" />](https://open.spotify.com/user/11125078154)
+<p align="center">
+  ⚛️ React Native &nbsp;·&nbsp; 🚀 Expo &nbsp;·&nbsp; 🍎 Swift / SwiftUI &nbsp;·&nbsp; 🤖 Kotlin / Compose
+  &nbsp;·&nbsp; 🎯 Flutter &nbsp;·&nbsp; 🎬 YouTube
+</p>
 
-### Connect with me:
-
-[<img align="left" alt="UCBJrbtKZi8MF2q1nHoN1AYw | YouTube" width="22px" src="https://cdn.jsdelivr.net/npm/simple-icons@v3/icons/youtube.svg" />][youtube]
-[<img align="left" alt="cmrnrbs | Twitter" width="22px" src="https://cdn.jsdelivr.net/npm/simple-icons@v3/icons/twitter.svg" />][twitter]
-[<img align="left" alt="cmrnrbs | LinkedIn" width="22px" src="https://cdn.jsdelivr.net/npm/simple-icons@v3/icons/linkedin.svg" />][linkedin]
-[<img align="left" alt="cemre0nur | Instagram" width="22px" src="https://cdn.jsdelivr.net/npm/simple-icons@v3/icons/instagram.svg" />][instagram]
-
-<br />
-
-### Languages and Tools:
-
-[<img align="left" alt="Visual Studio Code" width="25px" src="https://raw.githubusercontent.com/dnfield/flutter_svg/master/example/assets/flutter_logo.svg" />][movieapplist]
-[<img align="left" alt="HTML5" width="32px" src="https://raw.githubusercontent.com/ionic-team/ionicons/master/src/svg/logo-ionic.svg" />][ioniclist]
-[<img align="left" alt="React" width="32px" src="https://raw.githubusercontent.com/github/explore/80688e429a7d4ef2fca1e82350fe8e3517d3494d/topics/react/react.png" />][reactplaylist]
-
-
-<br />
-<br />
+I build **mobile apps** with React Native and Expo as well as native Swift and Kotlin, with a soft spot for **UI animation and smooth transitions**. I also publish mobile development tutorials on YouTube (in Turkish).
 
 ---
+
+## 📱 What I Work On
+
+- ⚛️ **Cross-platform apps**: React Native, Expo, TypeScript
+- 🍎 **Native iOS**: Swift and SwiftUI
+- 🤖 **Native Android**: Kotlin, MVVM, Room, Dagger Hilt and Jetpack Compose
+- 🎯 **Flutter**: Dart apps and reusable widgets
+- ✨ **UI animation**: Reanimated-driven interactions and shared-element transitions
+- 🎬 **Developer education**: step-by-step video series on YouTube
+
+---
+
+## 🧩 Open Source
+
+### ✨ [expo-hero](https://github.com/cmrnrbs/expo-hero)
+
+Router-independent **hero (shared-element) transitions** for Expo Router and react-native-navigation. A card's photo and text fly into place on the detail screen, the way Android shared-element transitions and iOS matched geometry work.
+
+- One codebase, two routers, two platforms
+- Pure TypeScript with no native code, built on `react-native-teleport` and Reanimated
+- **TypeScript · React Native · Reanimated · MIT**
+
+---
+
+## 🎬 Video Tutorials
+
+Step-by-step mobile development series, in Turkish.
+
+| Series | Stack |
+| --- | --- |
+| Movie Catch app | Kotlin · MVVM |
+| [Kotlin Room Library](https://www.youtube.com/playlist?list=PLy-lwcPKu8i3b7r2K9WnlhYOPfozs93d1) | Kotlin · Room |
+| [Flutter Movie App](https://www.youtube.com/playlist?list=PLy-lwcPKu8i1nYdfiGza13gjw7-dy9KRE) | Flutter · Bloc |
+| [Ionic Movie Trailer App](https://www.youtube.com/playlist?list=PLy-lwcPKu8i0yuLDLPtXrWsFCLBfZZLLv) | Ionic |
 
 ### 📺 Latest YouTube Videos
 
@@ -44,9 +63,27 @@
 - [Kotlin MVVM ile Movie Catch Uygulaması - Part II](https://www.youtube.com/watch?v=lMJtqCmqkys)
 <!-- YOUTUBE:END -->
 
-➡️ [more videos...](https://youtube.com/channel/UCBJrbtKZi8MF2q1nHoN1AYw)
+➡️ [More videos on YouTube](https://youtube.com/channel/UCBJrbtKZi8MF2q1nHoN1AYw)
 
 ---
+
+## 🛠️ Tech Stack
+
+### ⚛️ Cross-platform
+`React Native` `Expo` `Expo Router` `TypeScript` `Reanimated` `Flutter` `Dart`
+
+### 🍎 iOS
+`Swift` `SwiftUI`
+
+### 🤖 Android
+`Kotlin` `Jetpack Compose` `MVVM` `Room` `Dagger Hilt`
+
+### 🌐 Web
+`Next.js` `JavaScript`
+
+---
+
+## ✍️ Writing
 
 ### 📕 Latest Blog Posts
 
@@ -54,29 +91,40 @@
 - [Hi, everyone this is my first post](https://dev.to/cmrnrbs/hi-everyone-this-is-my-first-post-3hgo)
 <!-- BLOG-POST-LIST:END -->
 
-➡️ [more blog posts...](https://dev.to/cmrnrbs)
+➡️ [More posts on dev.to](https://dev.to/cmrnrbs)
 
 ---
 
+## 📊 GitHub Activity
+
+<h3 align="center">Contribution Activity</h3>
+
+<p align="center">
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/cmrnrbs/cmrnrbs/output/github-snake-dark.svg">
+    <source media="(prefers-color-scheme: light)" srcset="https://raw.githubusercontent.com/cmrnrbs/cmrnrbs/output/github-snake.svg">
+    <img alt="GitHub contribution snake" src="https://raw.githubusercontent.com/cmrnrbs/cmrnrbs/output/github-snake.svg" width="100%">
+  </picture>
+</p>
+
 <details>
-  <summary>:zap: Recent Github Activity</summary>
-  
+  <summary>⚡ Recent GitHub Activity</summary>
+
 <!--START_SECTION:activity-->
 <!--END_SECTION:activity-->
 
 </details>
 
-<details>
-  <summary>:zap: Github Stats</summary>
+---
 
-  <img align="left" alt="codeSTACKr's Github Stats" src="https://github-readme-stats-swart-six.vercel.app/api?username=cmrnrbs&show_icons=true&hide_border=true" />
+## 📫 Connect With Me
 
-</details>
+<p>
+  🎬 <a href="https://youtube.com/channel/UCBJrbtKZi8MF2q1nHoN1AYw">YouTube</a><br>
+  💼 <a href="https://linkedin.com/in/cemreonur">LinkedIn</a><br>
+  📝 <a href="https://dev.to/cmrnrbs">dev.to</a><br>
+  🐦 <a href="https://twitter.com/CmrNrBs">X / Twitter</a><br>
+  📸 <a href="https://instagram.com/cemre0nur">Instagram</a>
+</p>
 
-[twitter]: https://twitter.com/CmrNrBs
-[youtube]: https://youtube.com/channel/UCBJrbtKZi8MF2q1nHoN1AYw
-[instagram]: https://instagram.com/cemre0nur
-[linkedin]: https://linkedin.com/in/cemreonur
-[movieapplist]: https://www.youtube.com/watch?v=q2hXFhvIG9w&list=PLy-lwcPKu8i1nYdfiGza13gjw7-dy9KRE
-[ioniclist]: https://www.youtube.com/watch?v=SiUzRxY7W7k&list=PLy-lwcPKu8i0yuLDLPtXrWsFCLBfZZLLv
-[reactplaylist]: https://www.youtube.com/watch?v=L4i7wf_xTSw
+> Outside of code: drawing, guitar and drums 🎸
