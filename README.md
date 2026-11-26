@@ -99,7 +99,7 @@ Step-by-step mobile development series, in Turkish.
 
 <p align="center">
   <picture>
-    <source media="(prefers-color-scheme: dark)" srcset="https://gh-readme-profile.vercel.app/api?username=cmrnrbs&amp;hide=forks%2Cprs_merged%2Cissues%2Ccontributed&amp;border_radius=12&amp;bg_color=0B1220&amp;border_color=164E63&amp;title_color=67E8F9&amp;text_color=E2E8F0&amp;icon_color=291A53&amp;stroke_color=291A53&amp;username_color=F8FAFC">
+    <source media="(prefers-color-scheme: dark)" srcset="https://gh-readme-profile.vercel.app/api?username=cmrnrbs&amp;hide=forks%2Cprs_merged%2Cissues%2Ccontributed&amp;border_radius=12&amp;bg_color=0B1220&amp;border_color=291A53&amp;title_color=A78BFA&amp;text_color=E2E8F0&amp;icon_color=291A53&amp;stroke_color=291A53&amp;username_color=F8FAFC">
     <source media="(prefers-color-scheme: light)" srcset="https://gh-readme-profile.vercel.app/api?username=cmrnrbs&amp;hide=forks%2Cprs_merged%2Cissues%2Ccontributed&amp;border_radius=12&amp;bg_color=FFFFFF&amp;border_color=D0D7DE&amp;title_color=1D4ED8&amp;text_color=334155&amp;icon_color=2563EB&amp;stroke_color=CBD5E1&amp;username_color=0F172A">
     <img src="https://gh-readme-profile.vercel.app/api?username=cmrnrbs&amp;hide=forks%2Cprs_merged%2Cissues%2Ccontributed&amp;border_radius=12&amp;bg_color=FFFFFF&amp;border_color=D0D7DE&amp;title_color=1D4ED8&amp;text_color=334155&amp;icon_color=2563EB&amp;stroke_color=CBD5E1&amp;username_color=0F172A" alt="GitHub profile statistics">
   </picture>
