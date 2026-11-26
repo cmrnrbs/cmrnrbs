@@ -1,19 +1,20 @@
 #!/usr/bin/env python3
 """Generate the animated `dark.svg` / `light.svg` hero banners of the profile README.
 
-    python3 .github/banner/generate_banner.py --photo ~/path/to/photo.jpeg --out .
-    python3 .github/banner/generate_banner.py --photo ... --out /tmp/preview --static   # no animation
+    python3 .github/banner/generate_banner.py --avatar ~/path/to/Artboard.png --out .
+    python3 .github/banner/generate_banner.py --avatar ... --out /tmp/preview --static   # no animation
 
-Needs Pillow only. The photo is read, converted to ASCII characters and is NOT
-embedded: the SVGs contain text, never the original picture. Every fact shown
-in the banner lives in PROFILE below; edit it and run the script again.
+Needs Pillow only. The avatar (your profile picture, light shapes on a transparent
+background) is turned into a dot-matrix outline drawn with SVG strokes, so the
+banners contain no raster image at all. Every fact shown lives in PROFILE below.
 """
 import argparse
+import math
 import random
 import sys
 from pathlib import Path
 
-from PIL import Image, ImageChops, ImageDraw, ImageFilter, ImageOps
+from PIL import Image, ImageChops, ImageFilter, ImageOps
 
 # --------------------------------------------------------------------------- #
 # Profile data. Only facts that can be verified from the GitHub account.       #
@@ -42,7 +43,7 @@ PROFILE = {
     "left_prompt": "npx expo start",
     "aria": (
         "Cemre Onur Baş, mobile developer working with React Native, Expo, Swift and Kotlin, "
-        "and content creator. Terminal style profile card with an ASCII portrait."
+        "and content creator. Terminal style profile card with a dot-matrix avatar."
     ),
 }
 
@@ -56,25 +57,11 @@ CW = 0.6  # monospace advance as a fraction of font size
 LP = dict(x=24, y=60, w=424, h=526)  # left panel
 RP = dict(x=468, y=60, w=688, h=526)  # right panel
 
-# ASCII portrait grid
-RAMP = " .,:;!ilxo0O8#%@"
-A_FS, A_CW, A_LH = 6.4, 3.84, 7.2
-A_COLS = 92
-
-# Crop (head + shoulders) and subject outline, in the coordinate space of the
-# 1500x2000 preview of the source photo.
-CROP = (80, 380, 1330, 1750)
-OUTLINE = [
-    (690, 392), (800, 398), (920, 428), (1000, 488), (1060, 570), (1072, 680),
-    (1045, 800), (1030, 940), (1090, 1010), (1090, 1100), (1010, 1200),
-    (990, 1340), (945, 1440), (880, 1452), (1000, 1525), (1192, 1630),
-    (1300, 1740), (1330, 1800), (1330, 1900), (80, 1900), (80, 1478),
-    (300, 1440), (392, 1405), (405, 1300), (412, 1195), (375, 1150),
-    (335, 1100), (334, 1000), (352, 925), (392, 895), (396, 800),
-    (402, 700), (440, 620), (520, 520), (600, 455),
-]
-# Face core that is always kept (sunlit skin can look like the orange wall).
-KEEP = (500, 650, 960, 1300)
+# Dot-matrix avatar: a DOT_COLS x DOT_ROWS field of dots (DOT_PITCH px apart); the logo
+# occupies the central LOGO_CELLS x LOGO_CELLS cells.
+DOT_PITCH = 5
+DOT_COLS, DOT_ROWS = 78, 78
+LOGO_CELLS = 68
 
 
 def num(x):
@@ -87,105 +74,33 @@ def esc(s):
 
 
 # --------------------------------------------------------------------------- #
-# ASCII portrait                                                               #
+# Dot-matrix avatar                                                            #
 # --------------------------------------------------------------------------- #
-def subject_mask(work):
-    """Polygon around the subject minus the orange wooden wall and the grey beam."""
-    ww, hh = work.size
-    cw_, ch_ = CROP[2] - CROP[0], CROP[3] - CROP[1]
-
-    def to_work(p):
-        return ((p[0] - CROP[0]) / cw_ * ww, (p[1] - CROP[1]) / ch_ * hh)
-
-    poly = Image.new("L", (ww, hh), 0)
-    ImageDraw.Draw(poly).polygon([to_work(p) for p in OUTLINE], fill=255)
-
-    h, s, v = work.convert("HSV").split()
-    hue = h.point(lambda p: 255 if 14 <= p <= 32 else 0)
-    sat = s.point(lambda p: 255 if p >= 160 else 0)
-    val = v.point(lambda p: 255 if p >= 55 else 0)
-    wood = ImageChops.multiply(ImageChops.multiply(hue, sat), val)
-
-    top = Image.new("L", (ww, hh), 0)
-    ImageDraw.Draw(top).rectangle([0, 0, ww, to_work((0, 1010))[1]], fill=255)
-    grey = ImageChops.multiply(
-        ImageChops.multiply(s.point(lambda p: 255 if p < 50 else 0), v.point(lambda p: 255 if p > 105 else 0)),
-        top,
-    )
-
-    core = Image.new("L", (ww, hh), 0)
-    x0, y0 = to_work((KEEP[0], KEEP[1]))
-    x1, y1 = to_work((KEEP[2], KEEP[3]))
-    ImageDraw.Draw(core).rectangle([x0, y0, x1, y1], fill=255)
-
-    mask = ImageChops.subtract(ImageChops.subtract(poly, wood), grey)
-    mask = ImageChops.lighter(mask, ImageChops.multiply(poly, core))
-    mask = mask.filter(ImageFilter.MedianFilter(9)).filter(ImageFilter.GaussianBlur(2))
-    return mask.point(lambda p: 255 if p > 127 else 0)
-
-
-def build_portrait(photo, debug_dir=None):
-    """Return (rows_dark, rows_light): lists of strings, one per text row."""
-    src = ImageOps.exif_transpose(Image.open(photo)).convert("RGB")
-    scale = src.width / 1500
-    crop = src.crop(tuple(int(v * scale) for v in CROP))
-    cw_, ch_ = CROP[2] - CROP[0], CROP[3] - CROP[1]
-    rows = round(A_COLS * (ch_ / cw_) * (A_CW / A_LH))
-    ww = A_COLS * 6
-    hh = round(ww * ch_ / cw_)
-    work = crop.resize((ww, hh), Image.LANCZOS)
-    mask = subject_mask(work)
-
-    gray = work.convert("L")
-    gray = ImageOps.autocontrast(gray, cutoff=1, mask=mask)
-
-    if debug_dir:
-        d = Path(debug_dir)
-        d.mkdir(parents=True, exist_ok=True)
-        cut = Image.new("RGB", work.size, (8, 12, 24))
-        cut.paste(work, mask=mask)
-        cut.save(d / "mask_preview.png")
-
-    # Work on the character grid. Normalising each cell against its (masked)
-    # neighbourhood removes the strong side lighting so that facial features,
-    # glasses, beard and hair stay readable.
-    small = gray.resize((A_COLS, rows), Image.BOX)
-    cov = mask.resize((A_COLS, rows), Image.BOX)
-    sg = ImageChops.multiply(small, cov)
-    radius = A_COLS / 11
-    blur_g = sg.filter(ImageFilter.GaussianBlur(radius)).load()
-    blur_c = cov.filter(ImageFilter.GaussianBlur(radius)).load()
-    gp, cp = small.load(), cov.load()
-
-    def inside(x, y):
-        return 0 <= x < A_COLS and 0 <= y < rows and cp[x, y] >= 110
-
-    def tone(x, y):
-        mean = blur_g[x, y] * 255 / max(blur_c[x, y], 1)
-        local = 0.5 + (gp[x, y] - mean) / 95.0
-        glob = gp[x, y] / 255
-        t = 0.62 * local + 0.38 * glob
-        return min(1.0, max(0.0, (t - 0.10) / 0.78))
-
-    out = {}
-    for name, invert, gamma in (("dark", False, 1.45), ("light", True, 0.85)):
-        lines = []
-        for y in range(rows):
-            line = []
-            for x in range(A_COLS):
-                if not inside(x, y):
-                    line.append(" ")
-                    continue
-                t = tone(x, y)
-                t = (1 - t) if invert else t
-                idx = max(1, min(len(RAMP) - 1, round((t ** gamma) * (len(RAMP) - 1))))
-                edge = not all(inside(x + dx, y + dy) for dx, dy in ((1, 0), (-1, 0), (0, 1), (0, -1)))
-                if edge:
-                    idx = max(idx, 4)
-                line.append(RAMP[idx])
-            lines.append("".join(line))
-        out[name] = lines
-    return out["dark"], out["light"]
+def logo_dots(path, cells=LOGO_CELLS):
+    """Return (edge, fill): sets of (col, row) cells. `edge` follows the outline of the
+    logo, `fill` is a sparse checkerboard inside its shapes."""
+    im = Image.open(path).convert("RGBA")
+    alpha = im.getchannel("A")
+    mask = alpha if alpha.getextrema()[0] < 255 else ImageOps.grayscale(im)
+    mask = mask.point(lambda p: 255 if p > 127 else 0)
+    l, t, r, b = mask.getbbox()
+    side = max(r - l, b - t)
+    cx, cy = (l + r) / 2, (t + b) / 2
+    box = (round(cx - side / 2), round(cy - side / 2), round(cx + side / 2), round(cy + side / 2))
+    big = mask.crop(box).resize((cells * 8, cells * 8), Image.LANCZOS).point(lambda p: 255 if p > 127 else 0)
+    band = ImageChops.subtract(big.filter(ImageFilter.MaxFilter(3)), big.filter(ImageFilter.MinFilter(3)))
+    edge_c = band.resize((cells, cells), Image.BOX).load()
+    fill_c = big.resize((cells, cells), Image.BOX).load()
+    edge, fill = set(), set()
+    for y in range(cells):
+        for x in range(cells):
+            if edge_c[x, y] > 28:
+                edge.add((x, y))
+    for y in range(cells):
+        for x in range(cells):
+            if fill_c[x, y] > 215 and (x + y) % 2 == 0 and (x, y) not in edge:
+                fill.add((x, y))
+    return edge, fill
 
 
 # --------------------------------------------------------------------------- #
@@ -344,10 +259,9 @@ DARK = dict(
     acc=("#7C3AED", "#22D3EE", "#10B981"),
     grid="#94A3B8", grid_op=0.055, noise_op=0.06,
     glow=(("#7C3AED", 0.34), ("#22D3EE", 0.20), ("#10B981", 0.10)),
-    ascii_grad=("#A5F3FC", "#22D3EE", "#818CF8", "#C4B5FD"), ascii_op=0.82,
-    ascii_hi="#F0F9FF", ascii_hi_op=0.95,
     pill="#22D3EE", pill_fill_op=0.09, pill_stroke_op=0.40, pill_text="#E2E8F0",
     user="#34D399", cursor="#22D3EE", scan="#22D3EE", scan_op=0.20,
+    dot_a="#22D3EE", dot_b="#A78BFA", dot_bg="#67E8F9", dot_bg_op=0.24, dot_fill_op=0.40, dot_glow_op=0.75,
     scanline="#000000", scanline_op=0.10, sweep="#FFFFFF", sweep_op=0.07,
     sep="#94A3B8", sep_op=0.14, particle=("#22D3EE", "#A78BFA"), shadow=None,
     frame="#7DD3FC", frame_op=0.14,
@@ -361,10 +275,9 @@ LIGHT = dict(
     acc=("#2563EB", "#06B6D4", "#10B981"),
     grid="#0F172A", grid_op=0.045, noise_op=0.045,
     glow=(("#2563EB", 0.16), ("#06B6D4", 0.16), ("#10B981", 0.09)),
-    ascii_grad=("#1E3A8A", "#1D4ED8", "#0E7490", "#4338CA"), ascii_op=0.78,
-    ascii_hi="#0B1B4D", ascii_hi_op=0.95,
     pill="#2563EB", pill_fill_op=0.07, pill_stroke_op=0.34, pill_text="#1E293B",
     user="#047857", cursor="#2563EB", scan="#2563EB", scan_op=0.16,
+    dot_a="#2563EB", dot_b="#7C3AED", dot_bg="#475569", dot_bg_op=0.26, dot_fill_op=0.42, dot_glow_op=0.28,
     scanline="#0F172A", scanline_op=0.025, sweep="#FFFFFF", sweep_op=0.55,
     sep="#334155", sep_op=0.16, particle=("#2563EB", "#06B6D4"), shadow="#1E3A8A",
     frame="#2563EB", frame_op=0.18,
@@ -379,7 +292,7 @@ def perimeter(w, h, r):
 # --------------------------------------------------------------------------- #
 # Build                                                                        #
 # --------------------------------------------------------------------------- #
-def build_svg(theme, ascii_rows, static=False):
+def build_svg(theme, dots, static=False):
     c = Ctx(theme, static)
     t = theme
     P = PROFILE
@@ -429,19 +342,6 @@ def build_svg(theme, ascii_rows, static=False):
         f'<linearGradient id="namegrad" gradientUnits="userSpaceOnUse" x1="668" y1="0" x2="1000" y2="0">'
         f'<stop offset="0" stop-color="{n0}"/><stop offset=".55" stop-color="{n1}"/><stop offset="1" stop-color="{n2}"/></linearGradient>'
     )
-    g = t["ascii_grad"]
-    gy0, gy1 = 110, 330
-    grad_anim = (
-        ""
-        if static
-        else anim("y1", [gy0, gy0 + 70, gy0], [0, 0.5, 1], 14, repeat="indefinite", fill=None)
-        + anim("y2", [gy1, gy1 + 70, gy1], [0, 0.5, 1], 14, repeat="indefinite", fill=None)
-    )
-    d.append(
-        f'<linearGradient id="ascii" gradientUnits="userSpaceOnUse" x1="0" y1="{gy0}" x2="0" y2="{gy1}" spreadMethod="reflect">'
-        f'<stop offset="0" stop-color="{g[0]}"/><stop offset=".4" stop-color="{g[1]}"/>'
-        f'<stop offset=".75" stop-color="{g[2]}"/><stop offset="1" stop-color="{g[3]}"/>{grad_anim}</linearGradient>'
-    )
     d.append(
         f'<linearGradient id="beam" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="{t["scan"]}" stop-opacity="0"/>'
         f'<stop offset=".5" stop-color="{t["scan"]}" stop-opacity="{t["scan_op"]}"/><stop offset="1" stop-color="{t["scan"]}" stop-opacity="0"/></linearGradient>'
@@ -457,13 +357,32 @@ def build_svg(theme, ascii_rows, static=False):
     )
     d.append('<filter id="soft" x="-10%" y="-10%" width="120%" height="120%"><feGaussianBlur stdDeviation="14"/></filter>')
 
-    # ---- portrait geometry -------------------------------------------------
-    rows = len(ascii_rows)
-    p_w = A_COLS * A_CW
-    p_h = rows * A_LH
-    p_x = LP["x"] + (LP["w"] - p_w) / 2
-    p_y = 108.0
-    d.append(f'<clipPath id="portrait"><rect x="{num(LP["x"] + 8)}" y="{num(p_y)}" width="{num(LP["w"] - 16)}" height="{num(p_h)}"/></clipPath>')
+    # ---- dot-matrix avatar geometry ----------------------------------------
+    gx0 = LP["x"] + (LP["w"] - DOT_COLS * DOT_PITCH) / 2
+    gy0 = 110.0
+    gw, gh = DOT_COLS * DOT_PITCH, DOT_ROWS * DOT_PITCH
+    d.append(f'<clipPath id="dotfield"><rect x="{num(gx0)}" y="{num(gy0)}" width="{gw}" height="{gh}"/></clipPath>')
+    d.append(
+        f'<pattern id="dotgrid" x="{num(gx0)}" y="{num(gy0)}" width="{DOT_PITCH}" height="{DOT_PITCH}" patternUnits="userSpaceOnUse">'
+        f'<circle cx="{DOT_PITCH / 2}" cy="{DOT_PITCH / 2}" r=".85" fill="{t["dot_bg"]}"/></pattern>'
+    )
+    dg_anim = (
+        ""
+        if static
+        else anim("y1", [gy0, gy0 + 90, gy0], [0, 0.5, 1], 12, repeat="indefinite", fill=None)
+        + anim("y2", [gy0 + gh, gy0 + gh + 90, gy0 + gh], [0, 0.5, 1], 12, repeat="indefinite", fill=None)
+    )
+    d.append(
+        f'<linearGradient id="dotgrad" gradientUnits="userSpaceOnUse" x1="0" y1="{num(gy0)}" x2="0" y2="{num(gy0 + gh)}" spreadMethod="reflect">'
+        f'<stop offset="0" stop-color="{t["dot_a"]}"/><stop offset=".55" stop-color="{t["dot_a"]}"/>'
+        f'<stop offset="1" stop-color="{t["dot_b"]}"/>{dg_anim}</linearGradient>'
+    )
+    d.append(
+        f'<linearGradient id="scanh" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="{t["dot_a"]}" stop-opacity="0"/>'
+        f'<stop offset=".25" stop-color="{t["dot_a"]}"/><stop offset=".75" stop-color="{t["dot_b"]}"/>'
+        f'<stop offset="1" stop-color="{t["dot_b"]}" stop-opacity="0"/></linearGradient>'
+    )
+    d.append('<filter id="dotglow" x="-5%" y="-5%" width="110%" height="110%"><feGaussianBlur stdDeviation="2.4"/></filter>')
 
     # ---- background --------------------------------------------------------
     add(f'<rect x="1" y="1" width="{W - 2}" height="{H - 2}" rx="24" fill="url(#bg)"/>')
@@ -551,63 +470,45 @@ def build_svg(theme, ascii_rows, static=False):
     add(
         f'<text x="{lx}" y="88" font-size="12.5" font-weight="600" fill="{t["label"]}" letter-spacing="2.4">VISUAL.MAP</text>'
         f'<text x="{LP["x"] + LP["w"] - 20}" y="88" font-size="12" fill="{t["muted"]}" text-anchor="end" letter-spacing="1">'
-        f'ASCII {A_COLS}×{rows}</text>'
+        f'DOT {DOT_COLS}×{DOT_ROWS}</text>'
         f'<line x1="{lx}" y1="100" x2="{LP["x"] + LP["w"] - 20}" y2="100" stroke="{t["sep"]}" stroke-opacity="{t["sep_op"]}"/>'
     )
     add("</g>")
 
-    # portrait (text only)
-    float_anim = (
-        ""
-        if static
-        else '<animateTransform attributeName="transform" type="translate" values="0 0;0 -2;0 0" keyTimes="0;.5;1" '
-        'dur="7s" repeatCount="indefinite" calcMode="spline" keySplines=".45 0 .55 1;.45 0 .55 1"/>'
-    )
-    flicker = (
-        ""
-        if static
-        else '<animate attributeName="opacity" values="1;1;.72;1;.9;1;1" keyTimes="0;.46;.48;.5;.52;.54;1" dur="11s" begin="4s" repeatCount="indefinite"/>'
-    )
-    glow_pulse = (
-        ""
-        if static
-        else '<animate attributeName="opacity" values=".85;1;.85" dur="4.5s" begin="3s" repeatCount="indefinite"/>'
-    )
-    add(f'<g><g>{float_anim}')
-    base_layer, hi_layer = [], []
-    hi_set = set(RAMP[-2:])
-    for r, line in enumerate(ascii_rows):
-        stripped = line.lstrip(" ")
-        if not stripped.strip():
-            continue
-        lead = len(line) - len(stripped)
-        text = stripped.rstrip(" ")
-        x = p_x + lead * A_CW
-        y = p_y + (r + 1) * A_LH - 1.6
-        tl = len(text) * A_CW
-        rv = reveal(c, 0.55 + r * 0.022, 0.3)
-        base_layer.append(
-            f'<text x="{num(x)}" y="{num(y)}" textLength="{num(tl)}" lengthAdjust="spacing" xml:space="preserve">{esc(text)}{rv}</text>'
-        )
-        hi = "".join(ch if ch in hi_set else " " for ch in text)
-        if hi.strip():
-            hl = hi.lstrip(" ")
-            hx = x + (len(hi) - len(hl)) * A_CW
-            ht = hl.rstrip(" ")
-            hi_layer.append(
-                f'<text x="{num(hx)}" y="{num(y)}" textLength="{num(len(ht) * A_CW)}" lengthAdjust="spacing" xml:space="preserve">{esc(ht)}{rv}</text>'
-            )
-    add(
-        f'<g font-size="{A_FS}" fill="url(#ascii)" fill-opacity="{t["ascii_op"]}" font-weight="500">{"".join(base_layer)}</g>'
-        f'<g font-size="{A_FS}" fill="{t["ascii_hi"]}" fill-opacity="{t["ascii_hi_op"]}" font-weight="700">{glow_pulse}{flicker}{"".join(hi_layer)}</g>'
-    )
-    add("</g></g>")
+    # dot-matrix avatar: faint dot grid, dim fill dots, bright outline dots with glow, scan line
+    edge, fill = dots
+    oc = (DOT_COLS - LOGO_CELLS) // 2
+    orow = (DOT_ROWS - LOGO_CELLS) // 2
 
-    # scan beam + scanlines
+    def row_paths(cells, width, opacity, delay0):
+        out = []
+        for r in range(DOT_ROWS):
+            xs = sorted(cx for cx, cy in cells if cy + orow == r)
+            if not xs:
+                continue
+            y = gy0 + (r + 0.5) * DOT_PITCH
+            dpath = "".join(f"M{num(gx0 + (cx + oc + 0.5) * DOT_PITCH)} {num(y)}h0" for cx in xs)
+            out.append(
+                f'<path d="{dpath}" fill="none" stroke="url(#dotgrad)" stroke-width="{width}" stroke-linecap="round" '
+                f'opacity="{opacity}">{reveal(c, delay0 + r * 0.014, 0.35)}</path>'
+            )
+        return "".join(out)
+
+    add(f'<g>{reveal(c, 0.45, 0.8)}<rect x="{num(gx0)}" y="{num(gy0)}" width="{gw}" height="{gh}" fill="url(#dotgrid)" opacity="{t["dot_bg_op"]}"/></g>')
+    add(f'<g>{row_paths(fill, 2.0, t["dot_fill_op"], 0.7)}</g>')
+    add(f'<g id="edgedots">{row_paths(edge, 2.9, 1, 0.7)}</g>')
+    add(f'<use href="#edgedots" filter="url(#dotglow)" opacity="{t["dot_glow_op"]}"/>')
+    add(
+        f'<g>{reveal(c, 1.6, 0.5)}<text x="{num(LP["x"] + LP["w"] / 2)}" y="520" font-size="13" fill="{t["muted"]}" text-anchor="middle" '
+        'letter-spacing="1.6">@cmrnrbs</text></g>'
+    )
     if not static:
+        ys, ye = gy0 - 16, gy0 + gh
+        sweep = anim("y", [num(ys), num(ye)], [0, 1], 7, begin="2.8s", repeat="indefinite", fill=None)
         add(
-            f'<g clip-path="url(#portrait)"><rect x="{LP["x"] + 8}" y="{num(p_y - 30)}" width="{LP["w"] - 16}" height="30" fill="url(#beam)">'
-            f'<animate attributeName="y" values="{num(p_y - 30)};{num(p_y + p_h)}" dur="6.5s" begin="3.2s" repeatCount="indefinite"/></rect></g>'
+            f'<g clip-path="url(#dotfield)">'
+            f'<rect x="{num(gx0)}" y="{num(ys)}" width="{gw}" height="16" fill="url(#beam)">{sweep}</rect>'
+            f'<rect x="{num(gx0)}" y="{num(ys + 15)}" width="{gw}" height="1.6" fill="url(#scanh)">{sweep.replace(num(ys), num(ys + 15)).replace(num(ye), num(ye + 15))}</rect></g>'
         )
     add(
         f'<rect x="{LP["x"]}" y="{LP["y"]}" width="{LP["w"]}" height="{LP["h"]}" rx="16" fill="url(#scan)" opacity="{t["scanline_op"]}" pointer-events="none"/>'
@@ -711,23 +612,22 @@ def build_svg(theme, ascii_rows, static=False):
 
 def main():
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
-    ap.add_argument("--photo", required=True, help="portrait photo (JPEG/PNG), used only to build the ASCII art")
+    ap.add_argument("--avatar", required=True, help="profile picture PNG (light shapes on a transparent background)")
     ap.add_argument("--out", default=".", help="output directory for dark.svg and light.svg")
     ap.add_argument("--static", action="store_true", help="omit animations (for previews)")
-    ap.add_argument("--debug", help="directory for a cut-out preview of the subject mask")
     args = ap.parse_args()
 
-    photo = Path(args.photo).expanduser()
-    if not photo.is_file():
-        sys.exit(f"photo not found: {photo}")
-    dark_rows, light_rows = build_portrait(photo, args.debug)
+    avatar = Path(args.avatar).expanduser()
+    if not avatar.is_file():
+        sys.exit(f"avatar not found: {avatar}")
+    dots = logo_dots(avatar)
     out = Path(args.out).expanduser()
     out.mkdir(parents=True, exist_ok=True)
-    for theme, rows in ((DARK, dark_rows), (LIGHT, light_rows)):
-        svg = build_svg(theme, rows, args.static)
+    for theme in (DARK, LIGHT):
+        svg = build_svg(theme, dots, args.static)
         target = out / f"{theme['name']}.svg"
         target.write_text(svg, encoding="utf-8")
-        print(f"{target}  {len(svg.encode()) / 1024:.0f} KB  ({len(rows)} rows x {A_COLS} cols)")
+        print(f"{target}  {len(svg.encode()) / 1024:.0f} KB  ({len(dots[0])} outline dots, {len(dots[1])} fill dots)")
 
 
 if __name__ == "__main__":
